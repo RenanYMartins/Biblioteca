@@ -12,11 +12,12 @@ export class LivroRepository{
         CREATE TABLE IF NOT EXISTS Biblioteca.Livro (
             id INT AUTO_INCREMENT PRIMARY KEY,
             title VARCHAR(255),
+            author VARCHAR(255),
             publishedDate DATE,
-            isbn VARCHAR(255),
+            isbn VARCHAR(20),
             pages INT,
             language VARCHAR(255),
-            publisher VARCHAR(255),
+            publisher VARCHAR(255)
         )`;
 
         try {
@@ -27,18 +28,18 @@ export class LivroRepository{
         }
     }
 
-    async insereLivro(title: string, publishedDate: Date, isbn: string, pages:number, language: string, publisher: string) :Promise<Livro>{
-        const query = "INSERT INTO Biblioteca.Livro (title, publishedDate, isbn, pages, language, publisher) VALUES (?, ?)" ;
+    async insereLivro(title: string, author: string, publishedDate: Date, isbn: string, pages:number, language: string, publisher: string) :Promise<Livro>{
+        const query = "INSERT INTO Biblioteca.Livro (title, author, publishedDate, isbn, pages, language, publisher) VALUES (?, ?, ?, ?, ?, ?, ?)" ;
 
         try {
-            const resultado = await executarComandoSQL(query, [title, publishedDate, isbn, pages, language, publisher]);
-            console.log('Produto inserido com sucesso, ID: ', resultado.insertId);
-            const livro = new Livro(resultado.insertId, title, publishedDate, isbn, pages, language, publisher);
+            const resultado = await executarComandoSQL(query, [title, author, publishedDate, isbn, pages, language, publisher]);
+            console.log('Livro inserido com sucesso, ID: ', resultado.insertId);
+            const livro = new Livro(resultado.insertId, title, author, publishedDate, isbn, pages, language, publisher);
             return new Promise<Livro>((resolve)=>{
                 resolve(livro);
             })
         } catch (err) {
-            console.error('Erro ao inserir o produto:', err);
+            console.error('Erro ao inserir o livro:', err);
             throw err;
         }
     }

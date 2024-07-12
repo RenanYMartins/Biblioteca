@@ -6,12 +6,13 @@ export class LivroService{
     livroRepository: LivroRepository = new LivroRepository();
 
     async cadastrarLivro(livroData: any): Promise<Livro> {
-        const { title, publishedDate, isbn, pages, language, publisher } = livroData;
-        if(!title || !publishedDate || !isbn || !pages || !language || ! publisher){
+        const { title, author, publishedDate, isbn, pages, language, publisher } = livroData;
+        console.log(livroData);
+        if(!title || !author || !publishedDate || !isbn || !pages || !language || !publisher){
             throw new Error("Informações incompletas");
         }
 
-        const novoLivro =  await this.livroRepository.insereLivro(title, publishedDate, isbn, pages, language, publisher);
+        const novoLivro =  await this.livroRepository.insereLivro(title, author, publishedDate, isbn, pages, language, publisher);
         console.log("Service - Insert ", novoLivro);
         return novoLivro;
     }
