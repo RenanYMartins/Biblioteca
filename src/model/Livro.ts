@@ -1,4 +1,4 @@
-export class Product {
+export class Livro {
     id: number;
     title: string;
     publishedDate?: Date;

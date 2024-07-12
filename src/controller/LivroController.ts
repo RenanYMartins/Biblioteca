@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import { ProductService } from "../service/ProductService";
+import { LivroService } from "../service/LivroService";
 
-const productService = new ProductService();
+const livroService = new LivroService();
 
 export async function cadastrarLivro (req: Request, res: Response){
     try {
-        const novoLivro = await productService.cadastrarLivro(req.body);
+        const novoLivro = await livroService.cadastrarLivro(req.body);
         res.status(201).json(
             {
                 mensagem:"Livro adicionado com sucesso!",
@@ -19,7 +19,7 @@ export async function cadastrarLivro (req: Request, res: Response){
 
 // export async function atualizarLivro (req: Request, res: Response){
 //     try {
-//         const livro = await productService.atualizarLivro(req.body);
+//         const livro = await livroService.atualizarLivro(req.body);
 //         res.status(200).json(
 //             {
 //                 mensagem:"Livro atualizado com sucesso!",
@@ -33,7 +33,7 @@ export async function cadastrarLivro (req: Request, res: Response){
 
 // export async function deletarLivro (req: Request, res: Response){
 //     try {
-//         const livro = await productService.deletarLivro(req.body);
+//         const livro = await livroService.deletarLivro(req.body);
 //         res.status(200).json(
 //             {
 //                 mensagem:"Livro deletado com sucesso!",
@@ -47,7 +47,7 @@ export async function cadastrarLivro (req: Request, res: Response){
 
 // export async function filtrarLivro (req: Request, res: Response){
 //     try {
-//         const livro = await productService.filtrarLivro(req.query.id);
+//         const livro = await livroService.filtrarLivro(req.query.id);
 //         res.status(200).json(
 //             {
 //                 mensagem:"Livro encontrado com sucesso!",
@@ -61,7 +61,7 @@ export async function cadastrarLivro (req: Request, res: Response){
 
 // export async function listarTodosLivros (req: Request, res: Response){
 //     try {
-//         const livros = await productService.listarTodosLivros();
+//         const livros = await livroService.listarTodosLivros();
 //         res.status(200).json(
 //             {
 //                 mensagem:"Livros listados com sucesso!",

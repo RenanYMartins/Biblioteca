@@ -1,0 +1,108 @@
+import { executarComandoSQL } from "../database/mysql";
+import { Livro } from "../model/Livro";
+
+export class LivroRepository{
+
+    constructor(){
+        this.createTable();
+    }
+
+    private async createTable() {
+        const query = `
+        CREATE TABLE IF NOT EXISTS Biblioteca.Livro (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            title VARCHAR(255),
+            publishedDate DATE,
+            isbn VARCHAR(255),
+            pages INT,
+            language VARCHAR(255),
+            publisher VARCHAR(255),
+        )`;
+
+        try {
+                const resultado =  await executarComandoSQL(query, []);
+                console.log('Query executada com sucesso:', resultado);
+        } catch (err) {
+            console.error('Error');
+        }
+    }
+
+    async insereLivro(title: string, publishedDate: Date, isbn: string, pages:number, language: string, publisher: string) :Promise<Livro>{
+        const query = "INSERT INTO Biblioteca.Livro (title, publishedDate, isbn, pages, language, publisher) VALUES (?, ?)" ;
+
+        try {
+            const resultado = await executarComandoSQL(query, [title, publishedDate, isbn, pages, language, publisher]);
+            console.log('Produto inserido com sucesso, ID: ', resultado.insertId);
+            const livro = new Livro(resultado.insertId, title, publishedDate, isbn, pages, language, publisher);
+            return new Promise<Livro>((resolve)=>{
+                resolve(livro);
+            })
+        } catch (err) {
+            console.error('Erro ao inserir o produto:', err);
+            throw err;
+        }
+    }
+
+    // async updateLivro(id: number, name: string, price: number) :Promise<Livro>{
+    //     const query = "UPDATE Biblioteca.livro set name = ?, price = ? where id = ?;" ;
+
+    //     try {
+    //         const resultado = await executarComandoSQL(query, [name, price, id]);
+    //         console.log('Produto atualizado com sucesso, ID: ', resultado);
+    //         const livro = new Livro(id, name, price);
+    //         return new Promise<Livro>((resolve)=>{
+    //             resolve(livro);
+    //         })
+    //     } catch (err:any) {
+    //         console.error(`Erro ao atualizar o produto de ID ${id} gerando o erro: ${err}`);
+    //         throw err;
+    //     }
+    // }
+
+    // async deleteLivro(id: number, name:string, price:number) :Promise<Livro>{
+    //     const query = "DELETE FROM Biblioteca.livro where id = ?;" ;
+
+    //     try {
+    //         const resultado = await executarComandoSQL(query, [id]);
+    //         console.log('Produto deletado com sucesso, ID: ', resultado);
+    //         const livro = new Livro(id, name, price);
+    //         return new Promise<Livro>((resolve)=>{
+    //             resolve(livro);
+    //         })
+    //     } catch (err:any) {
+    //         console.error(`Falha ao deletar o produto de ID ${id} gerando o erro: ${err}`);
+    //         throw err;
+    //     }
+    // }
+
+    // async filterLivro(id: number) :Promise<Livro>{
+    //     const query = "SELECT * FROM Biblioteca.livro where id = ?" ;
+
+    //     try {
+    //         const resultado = await executarComandoSQL(query, [id]);
+    //         console.log('Produto localizado com sucesso, ID: ', resultado);
+    //         return new Promise<Livro>((resolve)=>{
+    //             resolve(resultado);
+    //         })
+    //     } catch (err:any) {
+    //         console.error(`Falha ao procurar o produto de ID ${id} gerando o erro: ${err}`);
+    //         throw err;
+    //     }
+    // }
+
+    // async filterAllLivro() :Promise<Livro[]>{
+    //     const query = "SELECT * FROM Biblioteca.livro" ;
+
+    //     try {
+    //         const resultado = await executarComandoSQL(query, []);
+    //         return new Promise<Livro[]>((resolve)=>{
+    //             resolve(resultado);
+    //         })
+    //     } catch (err:any) {
+    //         console.error(`Falha ao listar os produtos gerando o erro: ${err}`);
+    //         throw err;
+    //     }
+    // }
+
+    
+}
