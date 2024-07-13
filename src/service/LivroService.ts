@@ -7,13 +7,13 @@ export class LivroService{
 
     async cadastrarLivro(livroData: any): Promise<Livro> {
         const { title, author, publishedDate, isbn, pages, language, publisher } = livroData;
-        console.log(livroData);
+        console.log(title, author, publishedDate, isbn, pages, language, publisher);
         if(!title || !author || !publishedDate || !isbn || !pages || !language || !publisher){
             throw new Error("Informações incompletas");
         }
 
         const novoLivro =  await this.livroRepository.insereLivro(title, author, publishedDate, isbn, pages, language, publisher);
-        console.log("Service - Insert ", novoLivro);
+        console.log("Service - Insere ", novoLivro);
         return novoLivro;
     }
 
