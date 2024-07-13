@@ -77,7 +77,7 @@ export class LivroRepository{
         const query = "UPDATE Biblioteca.livro set title = ?, author = ?, publishedDate = ?, isbn = ?, pages = ?, language = ?, publisher = ? where id = ?;" ;
 
         try {
-            const resultado = await executarComandoSQL(query, [id, title, author, publishedDate, isbn, pages, language, publisher]);
+            const resultado = await executarComandoSQL(query, [title, author, publishedDate, isbn, pages, language, publisher, id]);
             console.log('Produto atualizado com sucesso, ID: ', resultado);
             const livro = new Livro(id, title, author, publishedDate, isbn, pages, language, publisher);
             return new Promise<Livro>((resolve)=>{
