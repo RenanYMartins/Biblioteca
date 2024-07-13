@@ -35,33 +35,33 @@ export class LivroService{
         return livro;
     }
 
-    // async atualizarLivro(livroData: any): Promise<Livro> {
-    //     const { id, name, price } = livroData;
-    //     if(!name || !price || !id ){
-    //         throw new Error("Informações incompletas");
-    //     }
+    async atualizarLivro(livroData: any): Promise<Livro> {
+        const { id, title, author, publishedDate, isbn, pages, language, publisher } = livroData;
+        if(!id || !title || !author || !publishedDate || !isbn || !pages || !language || !publisher ){
+            throw new Error("Informações incompletas");
+        }
 
-    //     const livro =  await this.livroRepository.updateLivro(id,name, price);
-    //     console.log("Service - Update ", livro);
-    //     return livro;
-    // }
+        const livro =  await this.livroRepository.updateLivro(id, title, author, publishedDate, isbn, pages, language, publisher);
+        console.log("Service - Update ", livro);
+        return livro;
+    }
 
-    // async deletarLivro(livroData: any): Promise<Livro> {
-    //     const { id, name, price } = livroData;
+    async deletarLivro(livroData: any): Promise<Livro> {
+        const { id, title, author, publishedDate, isbn, pages, language, publisher } = livroData;
         
-    //     if(!name || !price || !id ){
-    //         throw new Error("Informações incompletas");
-    //     }
+        if(!id || !title || !author || !publishedDate || !isbn || !pages || !language || !publisher ){
+            throw new Error("Informações incompletas");
+        }
         
-    //     const searchedLivro = await this.livroRepository.filterLivro(livroData.id);
+        const searchedLivro = await this.livroRepository.filtrarLivroByID(livroData.id);
 
-    //     if(searchedLivro == null) {
-    //         throw new Error("Livro não existe!");
-    //     }
+        if(searchedLivro == null) {
+            throw new Error("Livro não existe!");
+        }
 
-    //     const livro =  await this.livroRepository.deleteLivro(id,name, price);
-    //     console.log("Service - Delete ", livro);
-    //     return livro;
-    // }
+        const livro =  await this.livroRepository.deleteLivro(id, title, author, publishedDate, isbn, pages, language, publisher);
+        console.log("Service - Delete ", livro);
+        return livro;
+    }
 
 }
