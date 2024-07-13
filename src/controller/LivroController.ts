@@ -3,17 +3,45 @@ import { LivroService } from "../service/LivroService";
 
 const livroService = new LivroService();
 
-export async function cadastrarLivro (req: Request, res: Response){
+export async function cadastrarLivro(req: Request, res: Response) {
     try {
         const novoLivro = await livroService.cadastrarLivro(req.body);
         res.status(201).json(
             {
-                mensagem:"Livro adicionado com sucesso!",
-                livro:novoLivro
+                mensagem: "Livro adicionado com sucesso!",
+                livro: novoLivro
             }
         );
     } catch (error: any) {
-        res.status(400).json({ message: error.message});
+        res.status(400).json({ message: error.message });
+    }
+};
+
+export async function filtrarLivro(req: Request, res: Response) {
+    try {
+        const livro = await livroService.filtrarLivro(req.params.id);
+        res.status(200).json(
+            {
+                mensagem: "Livro encontrado com sucesso!",
+                livro: livro
+            }
+        );
+    } catch (error: any) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+export async function listarTodosLivros(req: Request, res: Response) {
+    try {
+        const livros = await livroService.listarTodosLivros();
+        res.status(200).json(
+            {
+                mensagem: "Livros listados com sucesso!",
+                livros: livros
+            }
+        );
+    } catch (error: any) {
+        res.status(400).json({ message: error.message });
     }
 };
 
@@ -45,30 +73,3 @@ export async function cadastrarLivro (req: Request, res: Response){
 //     }
 // };
 
-// export async function filtrarLivro (req: Request, res: Response){
-//     try {
-//         const livro = await livroService.filtrarLivro(req.query.id);
-//         res.status(200).json(
-//             {
-//                 mensagem:"Livro encontrado com sucesso!",
-//                 livro:livro
-//             }
-//         );
-//     } catch (error: any) {
-//         res.status(400).json({ message: error.message});
-//     }
-// };
-
-// export async function listarTodosLivros (req: Request, res: Response){
-//     try {
-//         const livros = await livroService.listarTodosLivros();
-//         res.status(200).json(
-//             {
-//                 mensagem:"Livros listados com sucesso!",
-//                 livros:livros
-//             }
-//             );
-//     } catch (error: any) {
-//         res.status(400).json({ message: error.message});
-//     }
-// };

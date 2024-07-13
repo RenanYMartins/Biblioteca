@@ -44,6 +44,35 @@ export class LivroRepository{
         }
     }
 
+    async filtrarLivroByID(id: number) :Promise<Livro>{
+        const query = "SELECT * FROM Biblioteca.livro where id = ?" ;
+
+        try {
+            const resultado = await executarComandoSQL(query, [id]);
+            console.log('Produto localizado com sucesso, ID: ', resultado);
+            return new Promise<Livro>((resolve)=>{
+                resolve(resultado);
+            })
+        } catch (err:any) {
+            console.error(`Falha ao procurar o livro de ID ${id} gerando o erro: ${err}`);
+            throw err;
+        }
+    }
+
+    async filtrarLivros() :Promise<Livro[]>{
+        const query = "SELECT * FROM Biblioteca.livro" ;
+
+        try {
+            const resultado = await executarComandoSQL(query, []);
+            return new Promise<Livro[]>((resolve)=>{
+                resolve(resultado);
+            })
+        } catch (err:any) {
+            console.error(`Falha ao listar os livros gerando o erro: ${err}`);
+            throw err;
+        }
+    }
+
     // async updateLivro(id: number, name: string, price: number) :Promise<Livro>{
     //     const query = "UPDATE Biblioteca.livro set name = ?, price = ? where id = ?;" ;
 
@@ -76,34 +105,7 @@ export class LivroRepository{
     //     }
     // }
 
-    // async filterLivro(id: number) :Promise<Livro>{
-    //     const query = "SELECT * FROM Biblioteca.livro where id = ?" ;
-
-    //     try {
-    //         const resultado = await executarComandoSQL(query, [id]);
-    //         console.log('Produto localizado com sucesso, ID: ', resultado);
-    //         return new Promise<Livro>((resolve)=>{
-    //             resolve(resultado);
-    //         })
-    //     } catch (err:any) {
-    //         console.error(`Falha ao procurar o produto de ID ${id} gerando o erro: ${err}`);
-    //         throw err;
-    //     }
-    // }
-
-    // async filterAllLivro() :Promise<Livro[]>{
-    //     const query = "SELECT * FROM Biblioteca.livro" ;
-
-    //     try {
-    //         const resultado = await executarComandoSQL(query, []);
-    //         return new Promise<Livro[]>((resolve)=>{
-    //             resolve(resultado);
-    //         })
-    //     } catch (err:any) {
-    //         console.error(`Falha ao listar os produtos gerando o erro: ${err}`);
-    //         throw err;
-    //     }
-    // }
+    
 
     
 }

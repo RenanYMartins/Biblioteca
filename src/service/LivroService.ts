@@ -17,6 +17,24 @@ export class LivroService{
         return novoLivro;
     }
 
+    async filtrarLivro(livroData: any): Promise<Livro> {
+        console.log("Dentro do filtrar ", livroData);
+        if(!livroData){
+            throw new Error("Livro não existe");
+        }
+        const id = parseInt(livroData, 10);
+
+        const livro =  await this.livroRepository.filtrarLivroByID(id);
+        console.log("Service - Filtrar", livro);
+        return livro;
+    }
+
+    async listarTodosLivros(): Promise<Livro[]> {
+        const livro =  await this.livroRepository.filtrarLivros();
+        console.log("Service - Filtrar Todos", livro);
+        return livro;
+    }
+
     // async atualizarLivro(livroData: any): Promise<Livro> {
     //     const { id, name, price } = livroData;
     //     if(!name || !price || !id ){
@@ -43,23 +61,6 @@ export class LivroService{
 
     //     const livro =  await this.livroRepository.deleteLivro(id,name, price);
     //     console.log("Service - Delete ", livro);
-    //     return livro;
-    // }
-
-    // async filtrarLivro(livroData: any): Promise<Livro> {
-    //     if(!livroData ){
-    //         throw new Error("Informações incompletas");
-    //     }
-    //     const id = parseInt(livroData, 10);
-
-    //     const livro =  await this.livroRepository.filterLivro(id);
-    //     console.log("Service - Filtrar", livro);
-    //     return livro;
-    // }
-
-    // async listarTodosLivros(): Promise<Livro[]> {
-    //     const livro =  await this.livroRepository.filterAllLivro();
-    //     console.log("Service - Filtrar Todos", livro);
     //     return livro;
     // }
 
