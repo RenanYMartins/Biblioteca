@@ -90,7 +90,7 @@ export class LivroRepository{
     }
 
     async deleteLivro(id: number, title: string, author: string, publishedDate: Date, isbn: string, pages:number, language: string, publisher: string) :Promise<Livro>{
-        const query = "DELETE FROM Biblioteca.livro where id = ?;" ;
+        const query = "DELETE FROM Biblioteca.livro WHERE id = ?;" ;
 
         try {
             const resultado = await executarComandoSQL(query, [id]);

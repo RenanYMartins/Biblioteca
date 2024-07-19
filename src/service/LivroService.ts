@@ -48,6 +48,7 @@ export class LivroService{
 
     async deletarLivro(livroData: any): Promise<Livro> {
         const { id, title, author, publishedDate, isbn, pages, language, publisher } = livroData;
+        // console.log(title, author, publishedDate, isbn, pages, language, publisher);
         
         if(!id || !title || !author || !publishedDate || !isbn || !pages || !language || !publisher ){
             throw new Error("Informações incompletas");
