@@ -7,14 +7,23 @@ export class LivroService{
 
     async cadastrarLivro(livroData: any): Promise<Livro> {
         const { title, author, publishedDate, isbn, pages, language, publisher } = livroData;
-        console.log(title, author, publishedDate, isbn, pages, language, publisher);
+        console.log("Service: ", title, author, publishedDate, isbn, pages, language, publisher);
         if(!title || !author || !publishedDate || !isbn || !pages || !language || !publisher){
             throw new Error("Informações incompletas");
         }
 
-        const novoLivro =  await this.livroRepository.insereLivro(title, author, publishedDate, isbn, pages, language, publisher);
-        console.log("Service - Insere ", novoLivro);
-        return novoLivro;
+        const searchedLivro = await this.livroRepository.filtrarLivroByISBN(livroData.isbn);
+        console.log("Searched Livro: ", searchedLivro);
+        
+        if(!searchedLivro){
+            const novoLivro =  await this.livroRepository.insereLivro(title, author, publishedDate, isbn, pages, language, publisher);
+            console.log("Service - Insere ", novoLivro);
+            return novoLivro;
+        }
+        else {
+            throw new Error("Livro com ISBN já cadastrado");
+        }
+        
     }
 
     async filtrarLivro(livroData: any): Promise<Livro> {
@@ -26,6 +35,18 @@ export class LivroService{
 
         const livro =  await this.livroRepository.filtrarLivroByID(id);
         console.log("Service - Filtrar", livro);
+        return livro;
+    }
+
+    async filtrarLivroPorISBN(livroData: any): Promise<Livro> {
+        console.log("Dentro do filtrar ", livroData);
+        if(!livroData){
+            throw new Error("Livro não existe");
+        }
+        const isbn = parseInt(livroData, 10);
+
+        const livro =  await this.livroRepository.filtrarLivroByISBN(isbn);
+        console.log("Service - Filtrar ISBN", livro);
         return livro;
     }
 
