@@ -15,7 +15,7 @@ export class LivroService{
         const searchedLivro = await this.livroRepository.filtrarLivroByISBN(livroData.isbn);
         console.log("Searched Livro: ", searchedLivro);
         
-        if(!searchedLivro){
+        if(searchedLivro.length == 0){
             const novoLivro =  await this.livroRepository.insereLivro(title, author, publishedDate, isbn, pages, language, publisher);
             console.log("Service - Insere ", novoLivro);
             return novoLivro;
@@ -26,7 +26,7 @@ export class LivroService{
         
     }
 
-    async filtrarLivro(livroData: any): Promise<Livro> {
+    async filtrarLivro(livroData: any): Promise<Livro[]> {
         console.log("Dentro do filtrar ", livroData);
         if(!livroData){
             throw new Error("Livro não existe");
@@ -38,7 +38,7 @@ export class LivroService{
         return livro;
     }
 
-    async filtrarLivroPorISBN(livroData: any): Promise<Livro> {
+    async filtrarLivroPorISBN(livroData: any): Promise<Livro[]> {
         console.log("Dentro do filtrar ", livroData);
         if(!livroData){
             throw new Error("Livro não existe");
@@ -56,11 +56,17 @@ export class LivroService{
         return livro;
     }
 
-    async atualizarLivro(livroData: any): Promise<Livro> {
-        const { id, title, author, publishedDate, isbn, pages, language, publisher } = livroData;
+    async atualizarLivro(id: number, livroData: any): Promise<Livro> {
+        const { title, author, publishedDate, isbn, pages, language, publisher } = livroData;
         if( !title || !author || !publishedDate || !isbn || !pages || !language || !publisher ){
             throw new Error("Informações incompletas");
         }
+
+        const searchedLivro = await this.livroRepository.filtrarLivroByID(id);
+        console.log(searchedLivro);
+
+        if(!searchedLivro)
+            throw new Error("O livro não existe");
 
         const livro =  await this.livroRepository.updateLivro(id, title, author, publishedDate, isbn, pages, language, publisher);
         console.log("Service - Update ", livro);
